@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+@font-face {
+  font-family: "my-font"; 
+  src: url("./assets/fonts/my-font.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+/* body {
+  font-family: my-font;
+  font-weight: bolder;
+} */
