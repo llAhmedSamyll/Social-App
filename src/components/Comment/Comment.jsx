@@ -1,8 +1,7 @@
 import React from "react";
 
-
 export default function Comment({ comments }) {
-// console.log(comments?.commentCreator?.photo)
+  // console.log(comments?.commentCreator?.photo)
   return (
     <>
       {comments ? (
@@ -23,10 +22,6 @@ export default function Comment({ comments }) {
               {new Date(comments.createdAt).toLocaleString()}
             </span>
           </div>
-
-
-
-
         </>
       ) : (
         ""
@@ -34,6 +29,3 @@ export default function Comment({ comments }) {
     </>
   );
 }
-
-
-
