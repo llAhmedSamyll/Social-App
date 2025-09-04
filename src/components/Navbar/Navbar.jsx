@@ -17,6 +17,8 @@ export default function Navbar() {
   let { data: userData } = useQuery({
     queryKey: ["userData2"],
     queryFn: getUserDataa,
+    refetchInterval: 1000,
+
     select: (data) => data?.data?.user,
   });
 
@@ -56,7 +58,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+      <nav className=" z-50 top-0 relative fixed w-full border-gray-200 bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Logo */}
           <div className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -74,21 +76,31 @@ export default function Navbar() {
             {userToken !== null ? (
               <div className="relative" ref={menuRef}>
                 {/* زرار الصورة */}
-                <button
-                  type="button"
-                  onClick={() => setMenuOpen((prev) => !prev)}
-                  className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                  id="user-menu-button"
-                  aria-expanded={menuOpen}
-                  aria-controls="user-dropdown"
-                >
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={userData?.photo}
-                    alt="user photo"
-                  />
-                </button>
+                <div className="flex items-center  gap-x-6">
+                  <div>
+                    <Link
+                      to={"/"}
+                      className="self-center text-2xl whitespace-nowrap px-2 py-1 rounded-lg   focus:bg-yellow-300  focus:text-[#111827] transition-all duration-300  text-white "
+                    >
+                      <i className="fa-solid fa-house"></i>
+                    </Link>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setMenuOpen((prev) => !prev)}
+                    className="flex text-sm bg-gray-800 rounded-full focus:ring-3 focus:ring-yellow-400 "
+                    id="user-menu-button"
+                    aria-expanded={menuOpen}
+                    aria-controls="user-dropdown"
+                  >
+                    <span className="sr-only">Open user menu</span>
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={userData?.photo}
+                      alt="user photo"
+                    />
+                  </button>
+                </div>
 
                 {/* المينيو */}
                 {menuOpen && (
@@ -131,19 +143,7 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <ul className="flex gap-4">
-                <Link to="/register">
-                  <li className="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center">
-                    Register
-                  </li>
-                </Link>
-
-                <Link to="/login">
-                  <li className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center ">
-                    Login
-                  </li>
-                </Link>
-              </ul>
+              ""
             )}
           </div>
         </div>

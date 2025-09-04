@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Comment from "../Comment/Comment";
 import style from "./PostDetails.module.css";
 import AddComment from "../AddComment/AddComment";
+import Upbutton from "../Upbutton/Upbutton";
 
 export default function PostDetails() {
   let { id } = useParams();
@@ -23,6 +24,7 @@ export default function PostDetails() {
     refetchInterval: 10000,
     select: (data) => data?.data.post,
   });
+
   return (
     <>
       <div className={`${style.PostDetails} min-h-screen pt-10 px-4 `}>
@@ -142,6 +144,7 @@ export default function PostDetails() {
           ))}
         </div>
         <div className="py-10"></div>
+          <Upbutton/>
       </div>
     </>
   );

@@ -4,6 +4,8 @@ import axios from "axios";
 import Comment from "../Comment/Comment";
 import { Link } from "react-router-dom";
 import AddComment from "../AddComment/AddComment";
+import { useEffect, useState } from "react";
+import Upbutton from "../Upbutton/Upbutton";
 
 export default function Home() {
   function getAllPosts() {
@@ -160,12 +162,8 @@ export default function Home() {
         ))}
 
         <div className="py-20"></div>
+        <Upbutton />
       </div>
     </>
   );
-}
-{
-  /* <div className="flex flex-col justify-center items-center mt-32 space-y-4">
-  <div className="w-20 h-20 border-8 border-[#111827] border-t-transparent rounded-full animate-spin"></div>
-</div>; */
 }

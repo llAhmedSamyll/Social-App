@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import z from "zod";
 import style from "./Login.module.css";
 import { UserContext } from "../Context/UserContext";
@@ -34,7 +34,7 @@ export default function Login() {
 
   let { register, handleSubmit, formState } = form;
 
-  const { setuserToken } =useContext(UserContext);
+  const { setuserToken } = useContext(UserContext);
   function login(data) {
     setisLoading(true);
     axios
@@ -149,6 +149,12 @@ export default function Login() {
                 "Login"
               )}
             </button>
+          </div>
+          <div className="flex justify-center" >
+              <Link className="text-teal-800" to="/register">
+                  If you do not have an account, <span className="text-blue-600">register now.</span>
+              </Link>
+
           </div>
         </form>
       </div>

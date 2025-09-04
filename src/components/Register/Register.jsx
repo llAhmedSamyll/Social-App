@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import z from "zod";
 import style from "./Register.module.css";
 
@@ -284,6 +284,12 @@ export default function Register() {
                 "Register"
               )}
             </button>
+          </div>
+          <div className="flex justify-center">
+            <Link className="text-teal-800" to="/login">
+              If you already have an account,{" "}
+              <span className="text-blue-600">login now.</span>
+            </Link>
           </div>
         </form>
       </div>
