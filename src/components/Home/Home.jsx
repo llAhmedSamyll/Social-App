@@ -138,7 +138,7 @@ export default function Home() {
                         <h3 className="font-medium text-lg">
                           {post.user.name}
                         </h3>
-                        <span className="text-sm text-teal-600  ">
+                        <span dir="ltr" className="text-sm text-left text-teal-600  ">
                           {new Date(post.createdAt).toLocaleString()}
                         </span>
                       </div>

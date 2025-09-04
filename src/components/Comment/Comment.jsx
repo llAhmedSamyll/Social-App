@@ -18,7 +18,7 @@ export default function Comment({ comments }) {
                 <p className="text-teal-700">{comments?.content}</p>
               </div>
             </div>
-            <span className="text-sm text-teal-600 ps-16  ">
+            <span dir="ltr" className="text-sm text-left text-teal-600 ps-16  ">
               {new Date(comments.createdAt).toLocaleString()}
             </span>
           </div>
