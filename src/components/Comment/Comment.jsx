@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Comment({ comments }) {
-  // console.log(comments?.commentCreator?.photo)
+  // console.log(comments?.commentCreator)
   return (
     <>
       {comments ? (

@@ -17,7 +17,11 @@ export default function Navbar() {
   let { data: userData } = useQuery({
     queryKey: ["userData2"],
     queryFn: getUserDataa,
-    refetchInterval: 1000,
+    staleTime: Infinity, // تفضل Fresh للأبد
+    cacheTime: Infinity, // متتمسحش من الكاش
+    refetchOnWindowFocus: false, // مش يعمل refetch لما تفتح التاب
+    refetchOnReconnect: false, // مش يعمل refetch لما النت يرجع
+    refetchInterval: false, // مفيش polling
 
     select: (data) => data?.data?.user,
   });
@@ -80,7 +84,7 @@ export default function Navbar() {
                   <div>
                     <Link
                       to={"/"}
-                      className="self-center text-2xl whitespace-nowrap px-2 py-1 rounded-lg   focus:bg-yellow-300  focus:text-[#111827] transition-all duration-300  text-white "
+                      className="self-center text-2xl whitespace-nowrap px-2 py-2 rounded-lg flex items-center   focus:bg-yellow-300  focus:text-[#111827] transition-all duration-300  text-white "
                     >
                       <i className="fa-solid fa-house"></i>
                     </Link>
