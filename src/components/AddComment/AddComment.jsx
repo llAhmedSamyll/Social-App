@@ -13,8 +13,12 @@ export default function AddComment({ postId }) {
   const { register, handleSubmit, reset } = form;
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isloaded, setisloaded] = useState(false);
+  const [isShow, setisShow] = useState(true);
 
   async function creatComment(data) {
+    setisloaded(true);
+
     try {
       let res = await axios.post(
         "https://linked-posts.routemisr.com/comments",
@@ -25,9 +29,10 @@ export default function AddComment({ postId }) {
           },
         }
       );
-
       if (res.data.message === "success") {
         setMessage("✅ Comment added successfully!");
+        setisloaded(false);
+        setisShow(false)
       } else {
         setMessage("❌ Failed to add comment.");
       }
@@ -78,20 +83,23 @@ export default function AddComment({ postId }) {
                   className="flex  items-center py-1 px-4 mx-auto w-fit  text-yellow-400 rounded-lg bg-[#111827] animate-pulse"
                   role="alert"
                 >
-
                   <span className="sr-only">Info</span>
-                  <div className="ms-3  text-sm font-medium">
-                    {message}
-                  </div>
+                  <div className="ms-3  text-sm font-medium">{message}</div>
                 </div>
               )}
               <div className="flex justify-between mt-4">
-                <button
+                {isShow? <>                <button
                   type="submit"
                   className="bg-[#111827] cursor-pointer text-white px-4 py-2 rounded"
                 >
-                  Add
-                </button>
+                  {isloaded ? (
+                    <>
+                      <i className="fa-solid fa-spinner fa-spin-pulse"></i>
+                    </>
+                  ) : (
+                    "Add"
+                  )}
+                </button></> : ""}
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
