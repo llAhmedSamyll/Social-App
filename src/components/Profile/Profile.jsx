@@ -3,6 +3,7 @@ import style from "./Profile.module.css";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import UserPosts from "../userPosts/userPosts";
+import dayjs from "dayjs";
 
 export default function Profile() {
   function getUserData() {
@@ -22,7 +23,10 @@ export default function Profile() {
     refetchOnMount: false, // مش هيعمل refetch أوتوماتيك أول ما ترجع
     refetchOnWindowFocus: false, // مش هيعمل refetch أول ما تركز على التاب
   });
-  console.log(data);
+  // console.log(data);
+  function formatDate(dateValue) {
+    return dayjs(dateValue).format("DD/MM/YYYY");
+  }
 
   return (
     <>
@@ -140,26 +144,17 @@ export default function Profile() {
                   dir="ltr"
                   className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
                 >
-                  {new Date(.createdAt).toLocaleDateString()}
+                  {formatDate(data?.createdAt)}
                 </span>
               </p>
-              <p className="font-bold text-sm">
-                Joined:
-                <span
-                  dir="ltr"
-                  className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
-                >
-                          {dayjs(data?.createdAt)} 
 
-                </span>
-              </p>
               <p className="font-bold text-sm">
                 date of birth :
                 <span
                   dir="ltr"
                   className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
                 >
-                  {new Date(data?.dateOfBirth).toLocaleDateString()}
+                  {formatDate(data?.dateOfBirth)}
                 </span>
               </p>
               <p className="font-bold text-sm">
