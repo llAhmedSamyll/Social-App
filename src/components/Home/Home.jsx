@@ -4,10 +4,13 @@ import axios from "axios";
 import Comment from "../Comment/Comment";
 import { Link } from "react-router-dom";
 import AddComment from "../AddComment/AddComment";
-import { useEffect, useState } from "react";
 import Upbutton from "../Upbutton/Upbutton";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 export default function Home() {
+  dayjs.extend(relativeTime);
+
   function getAllPosts() {
     return axios.get("https://linked-posts.routemisr.com/posts?limit=50", {
       headers: {
@@ -138,8 +141,11 @@ export default function Home() {
                         <h3 className="font-medium text-lg">
                           {post.user.name}
                         </h3>
-                        <span dir="ltr" className="text-sm text-left text-teal-600  ">
-                          {new Date(post.createdAt).toLocaleString()}
+                        <span
+                          dir="ltr"
+                          className="text-sm text-left text-teal-600  "
+                        >
+                          {dayjs(post.createdAt).fromNow()}
                         </span>
                       </div>
                     </div>

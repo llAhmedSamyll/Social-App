@@ -6,9 +6,12 @@ import Comment from "../Comment/Comment";
 import style from "./PostDetails.module.css";
 import AddComment from "../AddComment/AddComment";
 import Upbutton from "../Upbutton/Upbutton";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 export default function PostDetails() {
   let { id } = useParams();
+  dayjs.extend(relativeTime);
 
   function getPostDetails() {
     return axios.get(`https://linked-posts.routemisr.com/posts/${id}`, {
@@ -124,7 +127,8 @@ export default function PostDetails() {
               <div className="flex flex-wrap flex-col ">
                 <h3 className="font-medium text-lg">{data?.user.name}</h3>
                 <span dir="ltr" className="text-sm text-left text-teal-600  ">
-                  {new Date(data?.createdAt).toLocaleString()}
+                  {dayjs(data?.createdAt).fromNow()}
+
                 </span>
               </div>
             </div>
@@ -144,7 +148,7 @@ export default function PostDetails() {
           ))}
         </div>
         <div className="py-10"></div>
-          <Upbutton/>
+        <Upbutton />
       </div>
     </>
   );

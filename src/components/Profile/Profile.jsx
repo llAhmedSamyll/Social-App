@@ -136,13 +136,19 @@ export default function Profile() {
             <div className="flex flex-col items-start mt-3 ">
               <p className="font-bold text-sm">
                 Joined:
-                <span className="text-slate-500 font-medium ms-2 text-sm mt-1">
+                <span
+                  dir="ltr"
+                  className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
+                >
                   {new Date(data?.createdAt).toLocaleDateString()}
                 </span>
               </p>
               <p className="font-bold text-sm">
                 date of birth :
-                <span className="text-slate-500 font-medium ms-2 text-sm mt-1">
+                <span
+                  dir="ltr"
+                  className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
+                >
                   {new Date(data?.dateOfBirth).toLocaleDateString()}
                 </span>
               </p>
