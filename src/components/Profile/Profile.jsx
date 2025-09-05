@@ -140,7 +140,17 @@ export default function Profile() {
                   dir="ltr"
                   className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
                 >
-                  {new Date(data?.createdAt).toLocaleDateString()}
+                  {new Date(.createdAt).toLocaleDateString()}
+                </span>
+              </p>
+              <p className="font-bold text-sm">
+                Joined:
+                <span
+                  dir="ltr"
+                  className="text-slate-500 text-left font-medium ms-2 text-sm mt-1"
+                >
+                          {dayjs(data?.createdAt)} 
+
                 </span>
               </p>
               <p className="font-bold text-sm">
