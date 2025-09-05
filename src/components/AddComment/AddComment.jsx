@@ -32,7 +32,7 @@ export default function AddComment({ postId }) {
       if (res.data.message === "success") {
         setMessage("✅ Comment added successfully!");
         setisloaded(false);
-        setisShow(false)
+        setisShow(false);
       } else {
         setMessage("❌ Failed to add comment.");
       }
@@ -60,13 +60,13 @@ export default function AddComment({ postId }) {
 
         {/* Backdrop */}
         <div
-          className={`fixed inset-0 z-50 grid h-screen w-screen place-items-center 
+          className={`fixed inset-0 z-50 grid h-screen w-screen place-items-center  
         bg-black/60 backdrop-blur-sm transition-opacity duration-300 
         ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         >
           {/* Modal */}
           <div
-            className={`bg-[#F1EEE7] rounded-xl shadow-lg max-w-md w-full p-6 transform transition-all duration-300
+            className={`bg-[#F1EEE7] rounded-xl shadow-lg max-w-md w-full p-6 transform mt-[-200px] transition-all duration-300
           ${open ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
           >
             <h2 className="text-xl font-bold mb-4">Add comment</h2>
@@ -88,18 +88,25 @@ export default function AddComment({ postId }) {
                 </div>
               )}
               <div className="flex justify-between mt-4">
-                {isShow? <>                <button
-                  type="submit"
-                  className="bg-[#111827] cursor-pointer text-white px-4 py-2 rounded"
-                >
-                  {isloaded ? (
-                    <>
-                      <i className="fa-solid fa-spinner fa-spin-pulse"></i>
-                    </>
-                  ) : (
-                    "Add"
-                  )}
-                </button></> : ""}
+                {isShow ? (
+                  <>
+                    {" "}
+                    <button
+                      type="submit"
+                      className="bg-[#111827] cursor-pointer text-white px-4 py-2 rounded"
+                    >
+                      {isloaded ? (
+                        <>
+                          <i className="fa-solid fa-spinner fa-spin-pulse"></i>
+                        </>
+                      ) : (
+                        "Add"
+                      )}
+                    </button>
+                  </>
+                ) : (
+                  ""
+                )}
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
