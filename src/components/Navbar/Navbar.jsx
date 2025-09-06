@@ -19,9 +19,8 @@ export default function Navbar() {
     queryFn: getUserDataa,
     refetchInterval: 1000,
     cacheTime: Infinity, // متتمسحش من الكاش
-    refetchOnWindowFocus: false, // مش يعمل refetch لما تفتح التاب
-    refetchOnReconnect: false, // مش يعمل refetch لما النت يرجع
-    refetchInterval: false, // مفيش polling
+    refetchOnWindowFocus: true, // مش يعمل refetch لما تفتح التاب
+    refetchOnReconnect: true, // مش يعمل refetch لما النت يرجع
 
     select: (data) => data?.data?.user,
   });

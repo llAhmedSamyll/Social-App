@@ -45,14 +45,18 @@ export default function ChangPassModal() {
         }
       )
       .then((res) => {
-        toast.success("done");
+        toast.success("Password changed successfully");
         setOpen(false);
         setisload(false);
+        console.log(res);
+        if (res.data.message === "success") {
+          localStorage.setItem("userToken", res.data.token);
+        }
       })
       .catch((err) => {
         toast.error("The old password is incorrect.");
         setisload(false);
-        console.log(err)
+        console.log(err);
       });
   }
 
