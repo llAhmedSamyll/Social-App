@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function AddComment({ postId }) {
   const form = useForm({
@@ -12,13 +13,10 @@ export default function AddComment({ postId }) {
   });
   const { register, handleSubmit, reset } = form;
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [isloaded, setisloaded] = useState(false);
-  const [isShow, setisShow] = useState(true);
+  let toastId;
 
   async function creatComment(data) {
-    setisloaded(true);
-
+    toastId = toast.loading("Adding comment...");
     try {
       let res = await axios.post(
         "https://linked-posts.routemisr.com/comments",
@@ -30,14 +28,12 @@ export default function AddComment({ postId }) {
         }
       );
       if (res.data.message === "success") {
-        setMessage("✅ Comment added successfully!");
-        setisloaded(false);
-        setisShow(false);
+        toast.success("Comment added successfully!", { id: toastId });
       } else {
-        setMessage("❌ Failed to add comment.");
+        toast.error("Failed to add comment.", { id: toastId });
       }
     } catch (err) {
-      setMessage("⚠️ Error occurred!");
+      toast.error("Error occurred!", { id: toastId });
     }
   }
 
@@ -78,41 +74,24 @@ export default function AddComment({ postId }) {
                 className=" bg-[#efefef] w-full p-2 rounded mb-3"
               />
               <input {...register("post")} type="hidden" />
-              {message && (
-                <div
-                  className="flex  items-center py-1 px-4 mx-auto w-fit  text-yellow-400 rounded-lg bg-[#111827] animate-pulse"
-                  role="alert"
-                >
-                  <span className="sr-only">Info</span>
-                  <div className="ms-3  text-sm font-medium">{message}</div>
-                </div>
-              )}
+
               <div className="flex justify-between mt-4">
-                {isShow ? (
-                  <>
-                    {" "}
-                    <button
-                      type="submit"
-                      className="bg-[#111827] cursor-pointer text-white px-4 py-2 rounded"
-                    >
-                      {isloaded ? (
-                        <>
-                          <i className="fa-solid fa-spinner fa-spin-pulse"></i>
-                        </>
-                      ) : (
-                        "Add"
-                      )}
-                    </button>
-                  </>
-                ) : (
-                  ""
-                )}
+                <>
+                  <button
+                    onClick={() => setOpen(false)}
+                    type="submit"
+                    className="bg-[#111827] cursor-pointer text-white px-4 py-2 rounded"
+                  >
+                    Add
+                  </button>
+                </>
+
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="bg-red-600 cursor-pointer text-white px-4 py-2 rounded"
+                  className="bg-red-600 cursor-pointer flex items-center text-white px-4 py-2 rounded"
                 >
-                  Close
+                  <i className="fa-solid fa-xmark"></i>
                 </button>
               </div>
             </form>

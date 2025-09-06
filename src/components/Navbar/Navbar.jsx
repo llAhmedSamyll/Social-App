@@ -17,7 +17,7 @@ export default function Navbar() {
   let { data: userData } = useQuery({
     queryKey: ["userData2"],
     queryFn: getUserDataa,
-    staleTime: Infinity, // تفضل Fresh للأبد
+    refetchInterval: 1000,
     cacheTime: Infinity, // متتمسحش من الكاش
     refetchOnWindowFocus: false, // مش يعمل refetch لما تفتح التاب
     refetchOnReconnect: false, // مش يعمل refetch لما النت يرجع

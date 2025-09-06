@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import UserPosts from "../userPosts/userPosts";
 import dayjs from "dayjs";
+import ChangPassModal from "../ChangPassModal/ChangPassModal";
 
 export default function Profile() {
   function getUserData() {
@@ -166,6 +167,9 @@ export default function Profile() {
             </div>
           </div>
         </div>
+      <div className="max-w-lg mx-auto bg-[#F1EEE7] shadow-md rounded-lg mt-3 overflow-hidden ">
+        <ChangPassModal/>
+      </div>
         <UserPosts id={data?._id} />
       </div>
     </>
