@@ -34,6 +34,8 @@ export default function Home() {
   return (
     <>
       <div className={`${style.Home} min-h-screen pt-10 px-4 `}>
+        <CreatPost />
+
         {isFetching ? (
           <>
             <div
@@ -126,7 +128,7 @@ export default function Home() {
         ) : (
           ""
         )}
-        <CreatPost />
+
         {data?.data?.posts?.map((post) => (
           <div key={post.id}>
             <div className="my-4 ">
