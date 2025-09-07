@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import imageCompression from "browser-image-compression"; // ✅ مكتبة ضغط الصور
 
 export default function UpdatePhoto() {
   const [open, setOpen] = useState(false);
@@ -16,33 +17,52 @@ export default function UpdatePhoto() {
 
   let { register, handleSubmit } = form;
 
-  function handelChangePhoto(value) {
+  // ✅ رفع الصورة
+  async function handelChangePhoto(value) {
+    if (!file) return;
+
     setisload(true);
-    let myPhoto = new FormData();
-    myPhoto.append("photo", value.photo[0]);
-    axios
-      .put("https://linked-posts.routemisr.com/users/upload-photo", myPhoto, {
-        headers: {
-          token: localStorage.getItem("userToken"),
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        toast.success("Changed successfully");
-        setOpen(false);
-        setisload(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (
-          err.response.data.error ==
-          `"mimetype" must be one of [image/jpeg, image/png, image/jpg]`
-        ) {
-          toast.error("Allowed files ( jpg - jpeg - png ) only !! ");
+
+    try {
+      // ⬇️ ضغط الصورة قبل الرفع
+      const options = {
+        maxSizeMB: 1, // أقصى حجم بعد الضغط
+        maxWidthOrHeight: 800, // أقصى عرض/طول
+        useWebWorker: true,
+      };
+
+      const compressedFile = await imageCompression(file, options);
+
+      let myPhoto = new FormData();
+      myPhoto.append("photo", compressedFile);
+
+      const res = await axios.put(
+        "https://linked-posts.routemisr.com/users/upload-photo",
+        myPhoto,
+        {
+          headers: {
+            token: localStorage.getItem("userToken"),
+          },
         }
-        setOpen(true);
-        setisload(false);
-      });
+      );
+
+      console.log(res);
+      toast.success("Changed successfully");
+      setOpen(false);
+    } catch (err) {
+      console.log(err);
+      if (
+        err.response?.data?.error ===
+        `"mimetype" must be one of [image/jpeg, image/png, image/jpg]`
+      ) {
+        toast.error("Allowed files ( jpg - jpeg - png ) only !! ");
+      } else {
+        toast.error("Something went wrong, please try again.");
+      }
+      setOpen(true);
+    } finally {
+      setisload(false);
+    }
   }
 
   // ✅ check size before upload
