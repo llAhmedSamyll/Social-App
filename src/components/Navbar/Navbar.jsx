@@ -14,7 +14,7 @@ export default function Navbar() {
     });
   }
 
-  let { data: userData } = useQuery({
+  let { data : userData} = useQuery({
     queryKey: ["userData2"],
     queryFn: getUserDataa,
     refetchInterval: 1000,

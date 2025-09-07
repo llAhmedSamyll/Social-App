@@ -11,8 +11,8 @@ import UserContextProvider from "./components/Context/UserContext";
 import ProtectedRout from "./components/ProtectedRout/ProtectedRout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PostDetails from "./components/PostDetails/PostDetails";
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from "react-hot-toast";
+import UserDataContextProvider from "./components/Context/UserDataContext";
 function App() {
   const query = new QueryClient();
 
@@ -37,13 +37,13 @@ function App() {
             <ProtectedRout>
               <Profile />
             </ProtectedRout>
-          ),  
+          ),
         },
         {
           path: "postdetails/:id",
           element: (
             <ProtectedRout>
-              <PostDetails/>
+              <PostDetails />
             </ProtectedRout>
           ),
         },
@@ -56,8 +56,10 @@ function App() {
     <>
       <UserContextProvider>
         <QueryClientProvider client={query}>
-          <RouterProvider router={x}></RouterProvider>
-          <Toaster/>
+          <UserDataContextProvider>
+            <RouterProvider router={x}></RouterProvider>
+          </UserDataContextProvider>
+          <Toaster />
         </QueryClientProvider>
       </UserContextProvider>
     </>

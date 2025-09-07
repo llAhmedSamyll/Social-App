@@ -7,19 +7,23 @@ import AddComment from "../AddComment/AddComment";
 import Upbutton from "../Upbutton/Upbutton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import CreatPost from "../CreatPost/CreatPost";
 
 export default function Home() {
   dayjs.extend(relativeTime);
 
   function getAllPosts() {
-    return axios.get("https://linked-posts.routemisr.com/posts?limit=50", {
-      headers: {
-        token: localStorage.getItem("userToken"),
-      },
-    });
+    return axios.get(
+      "https://linked-posts.routemisr.com/posts?limit=50&sort=desc",
+      {
+        headers: {
+          token: localStorage.getItem("userToken"),
+        },
+      }
+    );
   }
 
-  let { data, isError, isFetching, isLoading, error } = useQuery({
+  let { data, isFetching } = useQuery({
     queryKey: ["getPosts"],
     queryFn: getAllPosts,
     staleTime: 1000 * 60 * 5, // يفضل يستخدم الكاش 5 دقايق
@@ -122,7 +126,7 @@ export default function Home() {
         ) : (
           ""
         )}
-
+        <CreatPost />
         {data?.data?.posts?.map((post) => (
           <div key={post.id}>
             <div className="my-4 ">
