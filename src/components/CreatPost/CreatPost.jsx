@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserDataContext } from "../Context/UserDataContext";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
-// import style from "./CreatPost.module";
+import imageCompression from "browser-image-compression";
+import toast from "react-hot-toast";
 
 export default function CreatPost() {
   let { data } = useContext(UserDataContext);
+  const [isload, setisload] = useState(false);
 
   let form = useForm({
     defaultValues: {
@@ -15,21 +16,46 @@ export default function CreatPost() {
     },
   });
   let { register, handleSubmit } = form;
-  function handelAddPost(value) {
+  async function handelAddPost(value) {
+    if (!value.image || value.image.length === 0) {
+      toast.error("Please upload an image before posting!");
+      return;
+    }
+    setisload(true);
     let myData = new FormData();
     myData.append("body", value.body);
-    myData.append("image", value.image[0]);
 
-    axios.post("https://linked-posts.routemisr.com/posts", myData, {
-      headers: {
-        token: localStorage.getItem("userToken"),
-      },
-    }).then((res) => {
-      console.log(res)
-    })
-    .catch((err)=> {
-      console.log(err)
-    })
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1024,
+      useWebWorker: true,
+    };
+
+    const compressedFile = await imageCompression(value.image[0], options);
+
+    myData.append("image", compressedFile);
+
+    axios
+      .post("https://linked-posts.routemisr.com/posts", myData, {
+        headers: {
+          token: localStorage.getItem("userToken"),
+        },
+      })
+      .then((res) => {
+        setisload(false);
+        toast.success("Posted successfully");
+      })
+      .catch((err) => {
+        setisload(false);
+        if (
+          err.response?.data?.error ===
+          `"mimetype" must be one of [image/jpeg, image/png, image/jpg]`
+        ) {
+          toast.error("Allowed files ( jpg - jpeg - png ) only !! ");
+        } else {
+          toast.error("Something went wrong, please try again.");
+        }
+      });
   }
 
   return (
@@ -58,11 +84,19 @@ export default function CreatPost() {
                 {...register("image")}
                 type="file"
                 className="hidden"
-                accept="image/*"
+                accept=".jpg, .jpeg, .png"
               />
             </label>
-            <button className="bg-[#111827] text-white px-4 py-1 cursor-pointer  rounded-sm  hover:bg-[#415176] transition">
-              Post
+            <button
+              disabled={isload}
+              type="submit"
+              className="bg-[#111827] text-white px-4 py-1 cursor-pointer  disabled:cursor-not-allowed rounded-sm  hover:bg-[#415176] transition"
+            >
+              {isload ? (
+                <i className="fa-solid fa-spinner fa-spin-pulse"></i>
+              ) : (
+                "Post"
+              )}
             </button>
           </div>
         </form>

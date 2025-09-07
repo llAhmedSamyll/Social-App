@@ -17,14 +17,13 @@ export default function UpdatePhoto() {
 
   let { register, handleSubmit } = form;
 
-  // ✅ رفع الصورة
   async function handelChangePhoto(value) {
     if (!file) return;
 
     setisload(true);
 
     try {
-      // ⬇️ ضغط الصورة قبل الرفع
+      //  ضغط الصورة قبل الرفع
       const options = {
         maxSizeMB: 1, // أقصى حجم بعد الضغط
         maxWidthOrHeight: 800, // أقصى عرض/طول
@@ -65,7 +64,7 @@ export default function UpdatePhoto() {
     }
   }
 
-  // ✅ check size before upload
+  //  check size before upload
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;

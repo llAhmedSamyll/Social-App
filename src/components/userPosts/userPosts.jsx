@@ -26,5 +26,5 @@ export default function UserPosts({ id }) {
   });
   console.log(data);
 
-  return <div>{data}</div>;
+  return <div></div>;
 }
