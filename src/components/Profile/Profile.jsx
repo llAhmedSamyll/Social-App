@@ -20,10 +20,10 @@ export default function Profile() {
     queryKey: ["userData"],
     queryFn: getUserData,
     select: (data) => data?.data?.user,
-    staleTime: 1000 * 60 * 5, // يفضل يستخدم الكاش 5 دقايق
-    cacheTime: 1000 * 60 * 10, // يخلي الكاش عايش 10 دقايق حتى لو مفيش كومبوننت
-    refetchOnMount: false, // مش هيعمل refetch أوتوماتيك أول ما ترجع
-    refetchOnWindowFocus: false, // مش هيعمل refetch أول ما تركز على التاب
+    staleTime: 1000 * 60 * 5, 
+    cacheTime: 1000 * 60 * 10, 
+    refetchOnMount: false, 
+    refetchOnWindowFocus: false, 
   });
   // console.log(data);
   function formatDate(dateValue) {

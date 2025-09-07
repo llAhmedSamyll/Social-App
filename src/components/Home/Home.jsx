@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import style from "./Home.module.css";
 import axios from "axios";
 import Comment from "../Comment/Comment";
@@ -12,144 +12,154 @@ import CreatPost from "../CreatPost/CreatPost";
 export default function Home() {
   dayjs.extend(relativeTime);
 
-  function getAllPosts() {
-    return axios.get(
-      "https://linked-posts.routemisr.com/posts?limit=50&sort=desc",
+  // ✅ جلب البوستات بالترتيب من الأحدث للأقدم
+  async function getAllPosts({ pageParam = 1 }) {
+    const res = await axios.get(
+      `https://linked-posts.routemisr.com/posts?limit=50&page=${pageParam}&sort=desc`,
       {
-        headers: {
-          token: localStorage.getItem("userToken"),
-        },
+        headers: { token: localStorage.getItem("userToken") },
       }
     );
+    return res.data;
   }
 
-  let { data, isFetching } = useQuery({
-    queryKey: ["getPosts"],
-    queryFn: getAllPosts,
-    staleTime: 1000 * 60 * 5, // يفضل يستخدم الكاش 5 دقايق
-    cacheTime: 1000 * 60 * 10, // يخلي الكاش عايش 10 دقايق حتى لو مفيش كومبوننت
-  });
-  // console.log(data?.data?.posts);
+  // ✅ useInfiniteQuery بدال useQuery
+  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["getPosts"],
+      queryFn: getAllPosts,
+      getNextPageParam: (lastPage) => {
+        if (lastPage?.paginationInfo?.nextPage) {
+          return lastPage.paginationInfo.nextPage;
+        }
+        return undefined;
+      },
+    });
+
+  // ✅ نجمع كل البوستات من الصفحات
+  const allPosts = data?.pages.flatMap((page) => page.posts) ?? [];
+
+  // ✅ نتأكد من عدم تكرار نفس البوستات
+  const uniquePosts = Array.from(
+    new Map(allPosts.map((post) => [post._id, post])).values()
+  );
 
   return (
     <>
       <div className={`${style.Home} min-h-screen pt-10 px-4 `}>
         <CreatPost />
 
-        {isFetching ? (
-          <>
-            <div
-              aria-label="Loading..."
-              role="status"
-              className="flex  flex-col justify-center mt-32 space-y-4 items-center space-x-2"
+        {isFetching && !isFetchingNextPage ? (
+          <div
+            aria-label="Loading..."
+            role="status"
+            className="flex flex-col justify-center mt-32 space-y-4 items-center space-x-2"
+          >
+            <svg
+              className="h-15 w-15 animate-spin stroke-gray-500"
+              viewBox="0 0 256 256"
             >
-              <svg
-                className="h-20 w-20 animate-spin stroke-gray-500"
-                viewBox="0 0 256 256"
-              >
-                <line
-                  x1={128}
-                  y1={32}
-                  x2={128}
-                  y2={64}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1="195.9"
-                  y1="60.1"
-                  x2="173.3"
-                  y2="82.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1={224}
-                  y1={128}
-                  x2={192}
-                  y2={128}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1="195.9"
-                  y1="195.9"
-                  x2="173.3"
-                  y2="173.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1={128}
-                  y1={224}
-                  x2={128}
-                  y2={192}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1="60.1"
-                  y1="195.9"
-                  x2="82.7"
-                  y2="173.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1={32}
-                  y1={128}
-                  x2={64}
-                  y2={128}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-                <line
-                  x1="60.1"
-                  y1="60.1"
-                  x2="82.7"
-                  y2="82.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={24}
-                />
-              </svg>
-              <span className="text-gray-500 text-lg font-medium">
-                Loading...
-              </span>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
+              <line
+                x1={128}
+                y1={32}
+                x2={128}
+                y2={64}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1="195.9"
+                y1="60.1"
+                x2="173.3"
+                y2="82.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1={224}
+                y1={128}
+                x2={192}
+                y2={128}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1="195.9"
+                y1="195.9"
+                x2="173.3"
+                y2="173.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1={128}
+                y1={224}
+                x2={128}
+                y2={192}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1="60.1"
+                y1="195.9"
+                x2="82.7"
+                y2="173.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1={32}
+                y1={128}
+                x2={64}
+                y2={128}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+              <line
+                x1="60.1"
+                y1="60.1"
+                x2="82.7"
+                y2="82.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={24}
+              />
+            </svg>
+            <span className="text-gray-500 text-lg font-medium">
+              Loading...
+            </span>
+          </div>
+        ) : null}
 
-        {data?.data?.posts?.map((post) => (
-          <div key={post.id}>
-            <div className="my-4 ">
-              <div className="bg-[#f1eee7] rounded-xl overflow-hidden shadow-md p-2 h-fit container flex flex-col justify-center mx-auto max-w-2xl ">
-                <Link to={`./postdetails/${post.id}`}>
+        {/* ✅ عرض البوستات */}
+        {uniquePosts.map((post) => (
+          <div key={post._id}>
+            <div className="my-4">
+              <div className="bg-[#f1eee7] rounded-xl overflow-hidden shadow-md p-2 h-fit container flex flex-col justify-center mx-auto max-w-2xl">
+                <Link to={`./postdetails/${post._id}`}>
                   <div className="p-4">
-                    <div className="flex items-center gap-2.5 ">
-                      <div className="size-12 rounded-full overflow-hidden bg-white  flex items-center">
+                    <div className="flex items-center gap-2.5">
+                      <div className="size-12 rounded-full overflow-hidden bg-white flex items-center">
                         <img
-                          className="w-[100%]"
+                          className="w-full"
                           src={post.user.photo}
-                          alt=""
+                          alt={post.user.name}
                         />
                       </div>
-                      <div className="flex flex-wrap flex-col ">
+                      <div className="flex flex-wrap flex-col">
                         <h3 className="font-medium text-lg">
                           {post.user.name}
                         </h3>
                         <span
                           dir="ltr"
-                          className="text-sm text-left text-teal-600  "
+                          className="text-sm text-left text-teal-600"
                         >
                           {dayjs(post.createdAt).fromNow()}
                         </span>
@@ -160,18 +170,33 @@ export default function Home() {
                       <p dir="auto">{post.body}</p>
                     </div>
                   </div>
-                  <div className="flex justify-center overflow-hidden bg-white rounded-xl ">
-                    <img className="w-100" src={post.image} alt="" />
-                  </div>
+                  {post.image && (
+                    <div className="flex justify-center overflow-hidden bg-white rounded-xl">
+                      <img className="w-full" src={post.image} alt="" />
+                    </div>
+                  )}
                   <hr className="border-gray-300 mt-5" />
 
                   <Comment comments={post.comments?.[0]} />
                 </Link>
-                <AddComment postId={post?.id} />
+                <AddComment postId={post?._id} />
               </div>
             </div>
           </div>
         ))}
+
+        {/* ✅ زرار عرض المزيد */}
+        {hasNextPage && (
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="px-6 py-2 bg-[#111827] text-white rounded-lg "
+            >
+              {isFetchingNextPage ? "Loading..." : "Load More"}
+            </button>
+          </div>
+        )}
 
         <div className="py-20"></div>
         <Upbutton />
