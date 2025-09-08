@@ -1,3 +1,4 @@
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -5,6 +6,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 export default function AddComment({ postId }) {
+  let queryClient = useQueryClient();
+
   const form = useForm({
     defaultValues: {
       content: "",
@@ -29,6 +32,7 @@ export default function AddComment({ postId }) {
       );
       if (res.data.message === "success") {
         toast.success("Comment added successfully!", { id: toastId });
+        queryClient.invalidateQueries({ queryKey: ["getcomments"] });
       } else {
         toast.error("Failed to add comment.", { id: toastId });
       }

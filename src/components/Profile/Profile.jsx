@@ -20,10 +20,10 @@ export default function Profile() {
     queryKey: ["userData"],
     queryFn: getUserData,
     select: (data) => data?.data?.user,
-    staleTime: 1000 * 60 * 5, 
-    cacheTime: 1000 * 60 * 10, 
-    refetchOnMount: false, 
-    refetchOnWindowFocus: false, 
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 10,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
   // console.log(data);
   function formatDate(dateValue) {
@@ -168,11 +168,16 @@ export default function Profile() {
             </div>
           </div>
         </div>
-      <div className=" flex justify-center gap-10 max-w-lg mx-auto bg-[#F1EEE7] shadow-md rounded-lg mt-3 overflow-hidden ">
-        <ChangPassModal/>
-        <UpdatePhoto/>
-      </div>
+        <div className=" flex justify-center gap-10 max-w-lg mx-auto bg-[#F1EEE7] shadow-md rounded-lg mt-3 overflow-hidden ">
+          <ChangPassModal />
+          <UpdatePhoto />
+        </div>
+        <div className="container max-w-2xl mx-auto mt-4 ">
+          <hr className="border-amber-50" />
+        </div>
+
         <UserPosts id={data?._id} />
+        <div className="py-5"></div>
       </div>
     </>
   );

@@ -13,7 +13,6 @@ import LatestPosts from "../LatestPosts/LatestPosts";
 export default function Home() {
   dayjs.extend(relativeTime);
 
-  // ✅ جلب البوستات بالترتيب من الأحدث للأقدم
   async function getAllPosts({ pageParam = 1 }) {
     const res = await axios.get(
       `https://linked-posts.routemisr.com/posts?limit=50&page=${pageParam}&sort=desc`,
@@ -24,10 +23,8 @@ export default function Home() {
     return res.data;
   }
 
-  // ✅ useInfiniteQuery بدال useQuery
   const {
     data,
-    isFetching,
     isLoading,
     fetchNextPage,
     hasNextPage,
@@ -43,10 +40,8 @@ export default function Home() {
     },
   });
 
-  // ✅ نجمع كل البوستات من الصفحات
   const allPosts = data?.pages.flatMap((page) => page.posts) ?? [];
 
-  // ✅ نتأكد من عدم تكرار نفس البوستات
   const uniquePosts = Array.from(
     new Map(allPosts.map((post) => [post._id, post])).values()
   );
@@ -153,7 +148,6 @@ export default function Home() {
           </div>
         ) : null}
 
-        {/* ✅ عرض البوستات */}
         {uniquePosts.map((post) => (
           <div key={post._id}>
             <div className="my-4">
@@ -200,7 +194,6 @@ export default function Home() {
           </div>
         ))}
 
-        {/* ✅ زرار عرض المزيد */}
         {hasNextPage && (
           <div className="flex justify-center mt-6">
             <button

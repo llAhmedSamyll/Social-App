@@ -24,7 +24,6 @@ export default function PostDetails() {
   let { data, isLoading, isFetching } = useQuery({
     queryKey: ["getcomments"],
     queryFn: getPostDetails,
-    refetchInterval: 10000,
     select: (data) => data?.data.post,
   });
 
