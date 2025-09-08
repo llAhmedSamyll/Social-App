@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PostDetails from "./components/PostDetails/PostDetails";
 import toast, { Toaster } from "react-hot-toast";
 import UserDataContextProvider from "./components/Context/UserDataContext";
+import LatestPosts from "./components/LatestPosts/LatestPosts";
 function App() {
   const query = new QueryClient();
 
@@ -25,7 +26,6 @@ function App() {
           index: true,
           element: (
             <ProtectedRout>
-              {" "}
               <Home />
             </ProtectedRout>
           ),
@@ -46,6 +46,15 @@ function App() {
               <PostDetails />
             </ProtectedRout>
           ),
+        },
+        {
+          path: "latestposts",
+          element: (
+            <ProtectedRout>
+              <LatestPosts />
+            </ProtectedRout>
+          ),
+    
         },
         { path: "register", element: <Register /> },
         { path: "*", element: <Notfound /> },

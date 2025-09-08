@@ -8,6 +8,7 @@ import Upbutton from "../Upbutton/Upbutton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import CreatPost from "../CreatPost/CreatPost";
+import LatestPosts from "../LatestPosts/LatestPosts";
 
 export default function Home() {
   dayjs.extend(relativeTime);
@@ -24,17 +25,23 @@ export default function Home() {
   }
 
   // ✅ useInfiniteQuery بدال useQuery
-  const { data, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["getPosts"],
-      queryFn: getAllPosts,
-      getNextPageParam: (lastPage) => {
-        if (lastPage?.paginationInfo?.nextPage) {
-          return lastPage.paginationInfo.nextPage;
-        }
-        return undefined;
-      },
-    });
+  const {
+    data,
+    isFetching,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["getPosts"],
+    queryFn: getAllPosts,
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.paginationInfo?.nextPage) {
+        return lastPage.paginationInfo.nextPage;
+      }
+      return undefined;
+    },
+  });
 
   // ✅ نجمع كل البوستات من الصفحات
   const allPosts = data?.pages.flatMap((page) => page.posts) ?? [];
@@ -48,8 +55,16 @@ export default function Home() {
     <>
       <div className={`${style.Home} min-h-screen pt-10 px-4 `}>
         <CreatPost />
+        <div className="flex justify-center">
+          <Link
+            to={"latestposts"}
+            className="rounded-md   hover:bg-[#eee]  bg-[#FEE2E2] p-2  border-[#b4b4b4] border-solid  border-1 px-4 cursor-pointer text-[#485571]"
+          >
+            <i className="fa-solid fa-newspaper"></i> Latest posts
+          </Link>
+        </div>
 
-        {isFetching && !isFetchingNextPage ? (
+        {isLoading && !isFetchingNextPage ? (
           <div
             aria-label="Loading..."
             role="status"
@@ -193,7 +208,11 @@ export default function Home() {
               disabled={isFetchingNextPage}
               className="px-6 py-2 bg-[#111827] text-white rounded-lg "
             >
-              {isFetchingNextPage ? "Loading..." : "Load More"}
+              {isFetchingNextPage ? (
+                <i className="fa-solid fa-circle-notch fa-spin"></i>
+              ) : (
+                "Load more"
+              )}
             </button>
           </div>
         )}
