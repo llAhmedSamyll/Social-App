@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./LatestPosts.module.css";
 import axios from "axios";
 import Comment from "../Comment/Comment";
@@ -11,6 +11,8 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function LatestPosts() {
   dayjs.extend(relativeTime);
+
+  const [visibleCount, setVisibleCount] = useState(50);
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["latestPosts"],
@@ -42,9 +44,12 @@ export default function LatestPosts() {
         new Map(allPosts.map((post) => [post._id, post])).values()
       );
     },
-    staleTime: 1000 * 60 * 5, // البيانات fresh لمدة 5 دقائق
-    cacheTime: 1000 * 60 * 30, // الكاش محفوظ 30 دقيقة
+    staleTime: 1000 * 60 * 5,
+    cacheTime: 1000 * 60 * 30,
   });
+
+  // البوستات المعروضة بس
+  const visiblePosts = posts.slice(0, visibleCount);
 
   return (
     <div className={`${style.LatestPosts} min-h-screen pt-10 px-4`}>
@@ -57,7 +62,7 @@ export default function LatestPosts() {
       )}
 
       {!isLoading &&
-        posts.map((post) => (
+        visiblePosts.map((post) => (
           <div key={post._id} className="my-4">
             <div className="bg-[#f1eee7] rounded-xl overflow-hidden shadow-md p-2 h-fit container flex flex-col justify-center mx-auto max-w-2xl">
               <Link to={`/postdetails/${post._id}`}>
@@ -96,6 +101,18 @@ export default function LatestPosts() {
             </div>
           </div>
         ))}
+
+      {/* زرار تحميل المزيد */}
+      {visibleCount < posts.length && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setVisibleCount((prev) => prev + 50)}
+            className="px-6 py-2 rounded-lg bg-teal-600 text-white font-medium hover:bg-teal-700"
+          >
+            Load More
+          </button>
+        </div>
+      )}
 
       <div className="py-20"></div>
       <Upbutton />
