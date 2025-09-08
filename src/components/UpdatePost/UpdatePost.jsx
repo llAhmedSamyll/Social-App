@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import imageCompression from "browser-image-compression";
@@ -108,7 +108,7 @@ export default function UpdatePost({ data }) {
             className={`bg-[#F1EEE7] rounded-xl shadow-lg max-w-[800px] container p-6 transform transition-all duration-300
           ${open ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
           >
-            <h2 className="text-xl font-bold mb-4">Change your Password</h2>
+            <h2 className="text-xl font-bold mb-4">Update post</h2>
             <form onSubmit={handleSubmit(handelUpdatePost)}>
               <div className="flex gap-3 my-5 items-start">
                 <textarea
