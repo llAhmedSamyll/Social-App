@@ -54,15 +54,15 @@ export default function AddComment({ postId }) {
 
   return (
     <>
-      <div className=" py-2 ">
+      <div >
         <div>
-          <form onSubmit={handleSubmit(creatComment)}  className=" flex items-center p-3 rounded-b-2xl bg-[#d6d6d6]   " >
+          <form onSubmit={handleSubmit(creatComment)}  className=" flex items-center p-3 rounded-b-2xl bg-[#E8E8E8]   " >
             <div className="w-full">
               <input
               dir="auto"
                 {...register("content")}
                 type="text"
-                placeholder={ "Comment as " +  data.name}
+                placeholder={ "Comment as " +  data?.name}
                 className=" bg-[#fffbf3] w-full text-lg  block  p-3 border-[#a2a2a2]  rounded-2xl "
               />
               <input {...register("post")} type="hidden" />
@@ -71,9 +71,9 @@ export default function AddComment({ postId }) {
             <div className=" px-2  ">
               <button
                 type="submit"
-                className="flex items-center "
+                className="flex items-center cursor-pointer  "
               >
-                <i className="fa-solid fa-paper-plane rotate-45 text-blue-600 text-lg "></i>
+                <i className="fa-solid fa-paper-plane rotate-45 hover:text-blue-400 text-blue-600 text-lg "></i>
               </button>
             </div>
           </form>

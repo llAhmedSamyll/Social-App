@@ -13,6 +13,7 @@ export default function LatestPosts() {
   dayjs.extend(relativeTime);
 
   const [visibleCount, setVisibleCount] = useState(50);
+  const [search, setSearch] = useState(""); 
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["latestPosts"],
@@ -36,10 +37,8 @@ export default function LatestPosts() {
         }
       }
 
-      // ترتيب الأحدث أولًا
       allPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-      // إزالة التكرار
       return Array.from(
         new Map(allPosts.map((post) => [post._id, post])).values()
       );
@@ -48,11 +47,24 @@ export default function LatestPosts() {
     cacheTime: 1000 * 60 * 30,
   });
 
-  // البوستات المعروضة بس
-  const visiblePosts = posts.slice(0, visibleCount);
+  const filteredPosts = posts.filter((post) =>
+    post.user.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
 
   return (
     <div className={`${style.LatestPosts} min-h-screen pt-10 px-4`}>
+      <div className="max-w-2xl mx-auto mb-6">
+        <input
+          type="text"
+          placeholder="Search by user name"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+        />
+      </div>
+
       {isLoading && (
         <div className="flex flex-col justify-center mt-32 space-y-4 items-center">
           <span className="text-gray-500 text-4xl">
@@ -102,8 +114,7 @@ export default function LatestPosts() {
           </div>
         ))}
 
-      {/* زرار تحميل المزيد */}
-      {visibleCount < posts.length && (
+      {visibleCount < filteredPosts.length && (
         <div className="flex justify-center mt-6">
           <button
             onClick={() => setVisibleCount((prev) => prev + 50)}

@@ -24,12 +24,11 @@ export default function Comment({ comments }) {
       yy: "%dy",
     },
   });
-
   return (
     <>
       {comments ? (
         <>
-          <div className="mt-2 p-3 flex justify-between   bg-[#ebc8c8] rounded-b-lg ">
+          <div className="mt-2 p-3 flex justify-between   bg-[#e8e8e8] rounded-b-lg ">
             <div className="flex gap-x-5">
               <div className="size-8 flex justify-center items-center bg-[#eee] rounded-full overflow-hidden  ">
                 <img className="" src="/user.png" />

@@ -180,8 +180,11 @@ export default function Home() {
                     </div>
                   )}
                   <hr className="border-gray-300 mt-5" />
+                  <div className="p-2 flex justify-between"> 
+                    <div className="text-blue-700" >Show comments</div>
+                    <div>{post.comments.length} comments</div>
+                  </div>
 
-                  {/* <Comment comments={post.comments?.[0]} /> */}
                 </Link>
                 <AddComment postId={post?._id} />
               </div>
