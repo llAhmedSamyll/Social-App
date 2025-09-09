@@ -31,7 +31,7 @@ export default function UserPosts({ id }) {
     },
     staleTime: 1000 * 60 * 5,
     cacheTime: 1000 * 60 * 10,
-    refetchOnMount: false, 
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
   // console.log(data);
@@ -145,11 +145,11 @@ export default function UserPosts({ id }) {
                       {dayjs(post.createdAt).fromNow()}
                     </span>
                   </div>
-                  <span >
-                     <UpdatePost data={post} />
+                  <span>
+                    <UpdatePost data={post} />
                   </span>
-                  <span >
-                     <DeletePost id={post.id} />
+                  <span>
+                    <DeletePost id={post.id} />
                   </span>
                 </div>
               </div>
@@ -163,10 +163,14 @@ export default function UserPosts({ id }) {
                   </div>
                 )}
                 <hr className="border-gray-300 mt-5" />
-
-                <Comment comments={post?.comments?.[0]} />
+                <div className="p-2 flex justify-between">
+                  <div className="text-blue-700">Show comments</div>
+                  <div className="text-teal-800">
+                    {post.comments.length} comments
+                  </div>
+                </div>
               </Link>
-              <AddComment postId={post?._id} />
+                <AddComment postId={post?._id} />
             </div>
           </div>
         </div>

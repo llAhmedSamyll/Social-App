@@ -79,7 +79,7 @@ export default function Register() {
       <div className={`${style.Register} px-2 h-screen`}>
         {apiErr === "" ? null : (
           <div
-            className="flex items-center py-1 px-4 translate-y-7 w-fit  text-yellow-400 rounded-lg bg-[#111827] animate-pulse"
+            className="flex items-center py-1  px-4 translate-y-7 w-fit mx-auto  text-yellow-400 rounded-lg bg-[#111827] animate-pulse"
             role="alert"
           >
             <svg

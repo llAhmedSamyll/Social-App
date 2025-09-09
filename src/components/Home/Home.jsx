@@ -182,7 +182,7 @@ export default function Home() {
                   <hr className="border-gray-300 mt-5" />
                   <div className="p-2 flex justify-between"> 
                     <div className="text-blue-700" >Show comments</div>
-                    <div>{post.comments.length} comments</div>
+                    <div className="text-teal-800" >{post.comments.length} comments</div>
                   </div>
 
                 </Link>

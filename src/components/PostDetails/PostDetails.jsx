@@ -26,7 +26,7 @@ export default function PostDetails() {
     queryFn: getPostDetails,
     select: (data) => data?.data.post,
   });
-
+  console.log(data?._id);
   return (
     <>
       <div className={`${style.PostDetails} min-h-screen pt-10 px-4 `}>
@@ -117,7 +117,7 @@ export default function PostDetails() {
         ) : (
           ""
         )}
-        <div className="bg-[#f1eee7] rounded-xl overflow-hidden shadow-md p-2 h-fit container flex flex-col justify-center mx-auto max-w-2xl ">
+        <div className="bg-[#f1eee7] rounded-xl  shadow-md p-2 h-fit container flex flex-col justify-center mx-auto max-w-2xl ">
           <div className="p-4">
             <div className="flex items-center gap-2.5 ">
               <div className="size-12 rounded-full overflow-hidden bg-white  flex items-center">
@@ -127,7 +127,6 @@ export default function PostDetails() {
                 <h3 className="font-medium text-lg">{data?.user.name}</h3>
                 <span dir="ltr" className="text-sm text-left text-teal-600  ">
                   {dayjs(data?.createdAt).fromNow()}
-
                 </span>
               </div>
             </div>
@@ -141,7 +140,7 @@ export default function PostDetails() {
           </div>
           <hr className="border-gray-300 mt-5" />
 
-          <AddComment postId={data?.id} />
+          <AddComment postId={data?._id} />
           {data?.comments.map((comment) => (
             <Comment key={comment._id} comments={comment}></Comment>
           ))}

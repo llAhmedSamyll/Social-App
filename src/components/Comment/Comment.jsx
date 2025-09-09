@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+import UpdateComment from "../UpdateComment/UpdateComment";
+import DeleteComment from "../DeleteComment/DeleteComment";
 
 export default function Comment({ comments }) {
-  // console.log(comments?.commentCreator)
+  const [humburger, sethumburger] = useState(false)
+
+  
+  console.log(comments)
   dayjs.extend(relativeTime);
   dayjs.extend(updateLocale);
   dayjs.updateLocale("en", {
@@ -40,9 +45,21 @@ export default function Comment({ comments }) {
                 <p className="text-teal-700">{comments?.content}</p>
               </div>
             </div>
-            <span dir="ltr" className="text-sm text-left text-teal-600 ps-16  ">
-              {dayjs(comments?.createdAt).fromNow()}
-            </span>
+            <div className="flex flex-col justify-between">
+              <span dir="ltr" className="text-sm text-left flex justify-center text-teal-600   ">
+                {dayjs(comments?.createdAt).fromNow()}
+              </span>
+              <span className="text-lg text-left relative  ">
+                <button className="cursor-pointer" onClick={() => sethumburger(!humburger)}>
+                  <i className="fa-solid fa-bars  text-blue-600  "></i>
+                </button>
+                {humburger &&  <span className="absolute top-[-25px] right-8 overflow-hidden  bg-white border rounded-lg border-teal-400 ">
+                  <UpdateComment id={comments?._id}/>
+                  <hr className="border-teal-700" />
+                  <DeleteComment id={comments?._id} />
+                </span> }
+              </span>
+            </div>
           </div>
         </>
       ) : (
