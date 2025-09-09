@@ -23,22 +23,17 @@ export default function Home() {
     return res.data;
   }
 
-  const {
-    data,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["getPosts"],
-    queryFn: getAllPosts,
-    getNextPageParam: (lastPage) => {
-      if (lastPage?.paginationInfo?.nextPage) {
-        return lastPage.paginationInfo.nextPage;
-      }
-      return undefined;
-    },
-  });
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["getPosts"],
+      queryFn: getAllPosts,
+      getNextPageParam: (lastPage) => {
+        if (lastPage?.paginationInfo?.nextPage) {
+          return lastPage.paginationInfo.nextPage;
+        }
+        return undefined;
+      },
+    });
 
   const allPosts = data?.pages.flatMap((page) => page.posts) ?? [];
 
@@ -186,7 +181,7 @@ export default function Home() {
                   )}
                   <hr className="border-gray-300 mt-5" />
 
-                  <Comment comments={post.comments?.[0]} />
+                  {/* <Comment comments={post.comments?.[0]} /> */}
                 </Link>
                 <AddComment postId={post?._id} />
               </div>

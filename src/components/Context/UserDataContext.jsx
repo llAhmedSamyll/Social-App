@@ -18,6 +18,7 @@ let { data, isLoading, error } = useQuery({
   queryFn: getUserData,
   select : (data) => data?.data?.user,
   refetchInterval: 1000,
+  staleTime: 50000,
 
 });
 
