@@ -33,7 +33,7 @@ export default function DeletePost({ id }) {
       <div className="flex justify-center py-2 ">
         <div className="absolute top-0 right-0 text-lg text-amber-900  hover:text-amber-600   ">
           <button onClick={() => setOpen(true)}>
-            <i className="fa-solid fa-xmark cursor-pointer "></i>
+            <i className="fa-solid fa-trash cursor-pointer"></i>
           </button>
         </div>
 

@@ -154,7 +154,7 @@ export default function UserPosts({ id }) {
                 </div>
               </div>
               <Link to={`/postdetails/${post._id}`}>
-                <div className="pt-5">
+                <div className="p-5">
                   <p dir="auto">{post.body}</p>
                 </div>
                 {post.image && (

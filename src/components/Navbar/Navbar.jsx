@@ -18,9 +18,9 @@ export default function Navbar() {
     queryKey: ["userData2"],
     queryFn: getUserDataa,
     refetchInterval: 1000,
-    cacheTime: Infinity, // متتمسحش من الكاش
-    refetchOnWindowFocus: true, // مش يعمل refetch لما تفتح التاب
-    refetchOnReconnect: true, // مش يعمل refetch لما النت يرجع
+    cacheTime: Infinity, 
+    refetchOnWindowFocus: true, 
+    refetchOnReconnect: true, 
 
     select: (data) => data?.data?.user,
   });
@@ -70,7 +70,7 @@ export default function Navbar() {
               to={"/"}
               className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
             >
-              Social App
+              Posts App
             </Link>
           </div>
 
@@ -105,7 +105,6 @@ export default function Navbar() {
                   </button>
                 </div>
 
-                {/* المينيو */}
                 {menuOpen && (
                   <div
                     id="user-dropdown"
