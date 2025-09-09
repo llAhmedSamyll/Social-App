@@ -13,7 +13,7 @@ export default function LatestPosts() {
   dayjs.extend(relativeTime);
 
   const [visibleCount, setVisibleCount] = useState(50);
-  const [search, setSearch] = useState(""); 
+  const [search, setSearch] = useState("");
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["latestPosts"],
@@ -107,7 +107,10 @@ export default function LatestPosts() {
                   </div>
                 )}
                 <hr className="border-gray-300 mt-5" />
-                <Comment comments={post.comments?.[0]} />
+                <div className="p-2 flex justify-between">
+                  <div className="text-blue-700">Show comments</div>
+                  <div>{post.comments.length} comments</div>
+                </div>
               </Link>
               <AddComment postId={post?._id} />
             </div>
