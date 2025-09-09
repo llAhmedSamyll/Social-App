@@ -16,7 +16,9 @@ export default function UserDataContextProvider(props) {
 let { data, isLoading, error } = useQuery({
   queryKey: ["UserDataContext"],
   queryFn: getUserData,
-  select : (data) => data?.data?.user
+  select : (data) => data?.data?.user,
+  refetchInterval: 1000,
+
 });
 
 
