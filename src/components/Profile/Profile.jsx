@@ -25,10 +25,18 @@ export default function Profile() {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
-  // console.log(data);
+
+
+
+
+
+
+
+
   function formatDate(dateValue) {
     return dayjs(dateValue).format("DD/MM/YYYY");
   }
+
 
   return (
     <>

@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function UpdatePost({ data }) {
-  console.log(data);
   const [isload, setisload] = useState(false);
   const [preview, setPreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);

@@ -8,7 +8,8 @@ export default function DeleteComment({ id }) {
   const [open, setOpen] = useState(false);
   let queryClient = useQueryClient();
   function deleteComment() {
-    setisload(true)
+
+    setisload(true);
     axios
       .delete(`https://linked-posts.routemisr.com/comments/${id}`, {
         headers: {
@@ -22,9 +23,11 @@ export default function DeleteComment({ id }) {
         setOpen(false);
       })
       .catch((err) => {
-        console.log(err.response.data.error);
+        console.log(err);
         setisload(false);
-        toast.error(err.response.data.error);
+        setOpen(false);
+
+        toast.error(" apiمش هيتمسح دي مشكلة من الـ ");
       });
   }
 

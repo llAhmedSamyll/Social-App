@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { UserDataContext } from "../Context/UserDataContext";
 
 export default function AddComment({ postId }) {
-  console.log(postId)
   let queryClient = useQueryClient();
   let { data } = useContext(UserDataContext);
   const [isload, setisload] = useState(false);
@@ -21,33 +20,39 @@ export default function AddComment({ postId }) {
   const { register, handleSubmit, reset } = form;
   let toastId;
 
-  async function creatComment(data) {
-    toastId = toast.loading("Adding comment...");
-    setisload(true);
-    try {
-      let res = await axios.post(
-        "https://linked-posts.routemisr.com/comments",
-        data,
-        {
-          headers: {
-            token: localStorage.getItem("userToken"),
-          },
-        }
-      );
-      if (res.data.message === "success") {
-        setisload(false);
-        toast.success("Comment added successfully!", { id: toastId });
-        queryClient.invalidateQueries({ queryKey: ["getcomments"] });
-      } else {
-        setisload(false);
-        toast.error("Failed to add comment.", { id: toastId });
-      }
-    } catch (err) {
-      setisload(false);
-
-      toast.error("Error occurred!", { id: toastId });
-    }
+useEffect(() => {
+  if (postId) {
+    reset({ content: "", post: postId });
   }
+}, [postId, reset]);
+
+async function creatComment(data) {
+  toastId = toast.loading("Adding comment...");
+  setisload(true);
+  try {
+    let res = await axios.post(
+      "https://linked-posts.routemisr.com/comments",
+      data,
+      {
+        headers: {
+          token: localStorage.getItem("userToken"),
+        },
+      }
+    );
+    if (res.data.message === "success") {
+      setisload(false);
+      toast.success("Comment added successfully!", { id: toastId });
+      reset({ content: "", post: postId }); 
+      queryClient.invalidateQueries({ queryKey: ["getcomments"] });
+    } else {
+      setisload(false);
+      toast.error("Failed to add comment.", { id: toastId });
+    }
+  } catch (err) {
+    setisload(false);
+    toast.error("Error occurred!", { id: toastId });
+  }
+}
 
   return (
     <>

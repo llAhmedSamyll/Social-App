@@ -26,7 +26,6 @@ export default function PostDetails() {
     queryFn: getPostDetails,
     select: (data) => data?.data.post,
   });
-  console.log(data?._id);
   return (
     <>
       <div className={`${style.PostDetails} min-h-screen pt-10 px-4 `}>

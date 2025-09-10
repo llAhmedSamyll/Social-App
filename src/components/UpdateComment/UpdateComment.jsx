@@ -34,6 +34,7 @@ export default function UpdateComment({ id }) {
         setisload(false);
         toast.success("successfully!", { id: toastId });
         queryClient.invalidateQueries({ queryKey: ["getcomments"] });
+        setOpen(false);
       } else {
         setisload(false);
         toast.error("Failed to edite comment.", { id: toastId });

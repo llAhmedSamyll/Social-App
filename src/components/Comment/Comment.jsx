@@ -6,10 +6,8 @@ import UpdateComment from "../UpdateComment/UpdateComment";
 import DeleteComment from "../DeleteComment/DeleteComment";
 
 export default function Comment({ comments }) {
-  const [humburger, sethumburger] = useState(false)
+  const [humburger, sethumburger] = useState(false);
 
-  
-  console.log(comments)
   dayjs.extend(relativeTime);
   dayjs.extend(updateLocale);
   dayjs.updateLocale("en", {
@@ -46,19 +44,31 @@ export default function Comment({ comments }) {
               </div>
             </div>
             <div className="flex flex-col justify-between">
-              <span dir="ltr" className="text-sm text-left flex justify-center text-teal-600   ">
+              <span
+                dir="ltr"
+                className="text-sm text-left flex justify-center text-teal-600   "
+              >
                 {dayjs(comments?.createdAt).fromNow()}
               </span>
-              <span className="text-lg text-left relative  ">
-                <button className="cursor-pointer" onClick={() => sethumburger(!humburger)}>
-                  <i className="fa-solid fa-bars  text-blue-600  "></i>
-                </button>
-                {humburger &&  <span className="absolute top-[-25px] right-8 overflow-hidden  bg-white border rounded-lg border-teal-400 ">
-                  <UpdateComment id={comments?._id}/>
-                  <hr className="border-teal-700" />
-                  <DeleteComment id={comments?._id} />
-                </span> }
-              </span>
+              {comments?.commentCreator?._id ===
+                localStorage.getItem("userId") && (
+                <span className="text-lg text-left relative  ">
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => sethumburger(!humburger)}
+                  >
+                    <i className="fa-solid fa-bars  text-blue-600  "></i>
+                  </button>
+                  {humburger && (
+                    <span className="absolute top-[-25px] right-8 overflow-hidden  bg-white border rounded-lg border-teal-400 ">
+                      <UpdateComment id={comments?._id} />
+                      <hr className="border-teal-700" />
+
+                      <DeleteComment id={comments?._id} />
+                    </span>
+                  )}
+                </span>
+              )}
             </div>
           </div>
         </>
