@@ -60,9 +60,12 @@ export default function Comment({ comments }) {
                     <i className="fa-solid fa-bars  text-blue-600  "></i>
                   </button>
                   {humburger && (
-                    <span className="absolute top-[-25px] right-8 overflow-hidden  bg-white border rounded-lg border-teal-400 ">
-                      <UpdateComment id={comments?._id} />
-                      <hr className="border-teal-700" />
+                    <span className="absolute top-[-42px] right-8 overflow-hidden  bg-white border rounded-lg border-teal-400 ">
+                      <UpdateComment
+                        id={comments?._id}
+                        oldContent={comments?.content}
+                      />
+                      <hr className="border-teal-400" />
 
                       <DeleteComment id={comments?._id} />
                     </span>

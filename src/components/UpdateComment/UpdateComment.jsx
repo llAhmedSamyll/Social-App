@@ -1,9 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-export default function UpdateComment({ id }) {
+export default function UpdateComment({ id , oldContent}  ) {
   const [open, setOpen] = useState(false);
   const [isload, setisload] = useState(false);
 
@@ -14,8 +14,15 @@ export default function UpdateComment({ id }) {
       content: "",
     },
   });
-  const { register, handleSubmit } = form;
+  const { register, handleSubmit  , reset} = form;
   let toastId;
+  useEffect(() => {
+    if (open) {
+      reset({
+        content: oldContent || "",
+      });
+    }
+  }, [open, oldContent, reset]);
 
   async function editeComment(data) {
     toastId = toast.loading("Editing comment...");
