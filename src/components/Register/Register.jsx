@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import z from "zod";
 import style from "./Register.module.css";
+import {Helmet} from "react-helmet";
+
 
 export default function Register() {
   const navigator = useNavigate();
@@ -76,6 +78,9 @@ export default function Register() {
 
   return (
     <>
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
       <div className={`${style.Register} px-2 h-screen`}>
         {apiErr === "" ? null : (
           <div

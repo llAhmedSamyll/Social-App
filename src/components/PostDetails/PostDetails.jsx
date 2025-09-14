@@ -8,6 +8,7 @@ import AddComment from "../AddComment/AddComment";
 import Upbutton from "../Upbutton/Upbutton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Helmet } from "react-helmet";
 
 export default function PostDetails() {
   let { id } = useParams();
@@ -28,6 +29,9 @@ export default function PostDetails() {
   });
   return (
     <>
+      <Helmet>
+        <title>Post details</title>
+      </Helmet>
       <div className={`${style.PostDetails} min-h-screen pt-10 px-4 `}>
         {isFetching ? (
           <div

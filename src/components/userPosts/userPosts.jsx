@@ -38,6 +38,7 @@ export default function UserPosts({ id }) {
 
   return (
     <>
+
       {isLoading ? (
         <div
           aria-label="Loading..."
@@ -170,7 +171,7 @@ export default function UserPosts({ id }) {
                   </div>
                 </div>
               </Link>
-                <AddComment postId={post?._id} />
+              <AddComment postId={post?._id} />
             </div>
           </div>
         </div>

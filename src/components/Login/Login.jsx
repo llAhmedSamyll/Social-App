@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import z from "zod";
 import style from "./Login.module.css";
 import { UserContext } from "../Context/UserContext";
+import { Helmet } from "react-helmet";
 
 export default function Login() {
   const navigator = useNavigate();
@@ -56,6 +57,9 @@ export default function Login() {
 
   return (
     <>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       <div className={`h-screen px-2 ${style.Login}  `}>
         {apiErr === "" ? null : (
           <div
@@ -150,11 +154,11 @@ export default function Login() {
               )}
             </button>
           </div>
-          <div className="flex justify-center" >
-              <Link className="text-teal-800" to="/register">
-                  If you do not have an account, <span className="text-blue-600">register now.</span>
-              </Link>
-
+          <div className="flex justify-center">
+            <Link className="text-teal-800" to="/register">
+              If you do not have an account,{" "}
+              <span className="text-blue-600">register now.</span>
+            </Link>
           </div>
         </form>
       </div>

@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import CreatPost from "../CreatPost/CreatPost";
 import LatestPosts from "../LatestPosts/LatestPosts";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
   dayjs.extend(relativeTime);
@@ -43,6 +44,9 @@ export default function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       <div className={`${style.Home} min-h-screen pt-10 px-4 `}>
         <CreatPost />
         <div className="flex justify-center">
@@ -180,11 +184,12 @@ export default function Home() {
                     </div>
                   )}
                   <hr className="border-gray-300 mt-5" />
-                  <div className="p-2 flex justify-between"> 
-                    <div className="text-blue-700" >Show comments</div>
-                    <div className="text-teal-800" >{post.comments.length} comments</div>
+                  <div className="p-2 flex justify-between">
+                    <div className="text-blue-700">Show comments</div>
+                    <div className="text-teal-800">
+                      {post.comments.length} comments
+                    </div>
                   </div>
-
                 </Link>
                 <AddComment postId={post?._id} />
               </div>

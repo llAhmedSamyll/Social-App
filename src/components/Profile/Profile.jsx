@@ -6,6 +6,7 @@ import UserPosts from "../userPosts/userPosts";
 import dayjs from "dayjs";
 import ChangPassModal from "../ChangPassModal/ChangPassModal";
 import UpdatePhoto from "../UpdatePhoto/UpdatePhoto";
+import { Helmet } from "react-helmet";
 
 export default function Profile() {
   function getUserData() {
@@ -26,20 +27,15 @@ export default function Profile() {
     refetchOnWindowFocus: false,
   });
 
-
-
-
-
-
-
-
   function formatDate(dateValue) {
     return dayjs(dateValue).format("DD/MM/YYYY");
   }
 
-
   return (
     <>
+      <Helmet>
+        <title>Profile</title>
+      </Helmet>
       <div className={`${style.Profile} min-h-screen pt-10 px-4`}>
         {isFetching ? (
           <div
